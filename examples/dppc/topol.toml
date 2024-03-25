@@ -1,0 +1,9 @@
+[system]
+molecules = [
+    ["DPPC", 318],
+    ["W", 4840],
+]
+include = [
+    "./DPPC.toml",
+    "./W.toml",
+]

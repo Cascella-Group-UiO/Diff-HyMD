@@ -1,0 +1,53 @@
+[simulation]
+n_steps = 10000                   # Number of outer steps
+n_print = 1                       # Number of steps after which the positions are saved
+n_flush = 1                       # Number of prints after which the output file is saved
+time_step = 0.02                  # Inner loop timestep (for the fast forces)
+respa_inner = 10                  # Number of inner loop steps. Therefore the timestep for the outer loop is given by (time_step * respa_inner)
+cancel_com_momentum = true        # Whether to remove the center of mass momentum
+integrator = 'respa'              # Backwards compatibilty with HyND, can be omitted
+
+# Electrostatics
+dielectric_const = 60.0
+coulombtype = 'PIC_Spectral'
+
+# Temperature coupling
+start_temperature = 323           # Initial temperature
+target_temperature = 323          # Thermostat target temperature
+tau_t = 0.1                       # Thermostat coupling constant ('tau' in HyMD) 
+thermostat_coupling_groups = [    # We can define different coupling groups
+  ["Q0", "Qa", "Na", "C1"], 
+  ["W"]
+]
+
+# pressure
+pressure = true                   # Whether pressure coupling is on 
+barostat = 'berendsen'            # Barostat name
+barostat_type = 'isotropic'       # Barostat type ("isotropic", "semiisotropic")
+tau_p = 0.1                       # Barostat coupling constant
+target_pressure = 1               # Barostat target pressure
+
+# In HyMD, the following two options are reversed
+# barostat_type = 'berendsen'     
+# barostat = 'isotropic'           
+
+[field]
+hamiltonian = "DefaultWithChi"    # Backwards compatibilty with HyND, can be omitted
+mesh_size = [40, 40, 40]          # FFT mesh grid. Only use even numbers with Diff-HyMD!
+kappa = 0.05                      # Compressibilty
+sigma = 0.5                       # Spread of the gaussian filter
+rho0 = 8.86                       # Particle 'volume'. Optimized value for NPT
+a = 9.21                          # Free parameter to fit water density. Optimized value for NPT
+chi = [                           # Type-type interaction matrix
+  ["Q0", "Qa", -10.41],
+  ["Q0", "Na", -10.57],
+  ["Q0", "C1", -13.73],
+  ["Q0", "W", -15.51],
+  ["Qa", "Na",  -8.62],
+  ["Qa", "C1",  19.96],
+  ["Qa", "W",  -3.02],
+  ["Na", "C1",  16.47],
+  ["Na", "W", -12.05],
+  ["C1", "W",  24.28],
+  # ['A','A', 0.0] => No need to specify self-interactions, assumed to be 0.0
+]
