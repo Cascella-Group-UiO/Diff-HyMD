@@ -2,6 +2,8 @@
 ∂-HyMD (read diff-HyMD) is [HyMD](https://github.com/Cascella-Group-UiO/HyMD) rewritten in [JAX](https://github.com/google/jax).
 The main goal is to automatically learn force field parameters while running differentiable molecular dynamics simulations.
 
+A preprint that describes how we used ∂-HyMD to train a force field for lipids is available [here](https://chemrxiv.org/engage/chemrxiv/article-details/65fea15e9138d2316118588f).
+
 ## Installation
 > **Note**:
 > If installing on Saga or Betzy you need to first load the `python` and `openmpi` modules
