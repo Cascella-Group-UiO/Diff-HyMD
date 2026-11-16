@@ -1,0 +1,9 @@
+[system]
+molecules = [
+    ["DOPC", 72],
+    ["W", 1077],
+]
+include = [
+    "./DOPC.toml",
+    "./W.toml",
+]

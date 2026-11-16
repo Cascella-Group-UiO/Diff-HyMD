@@ -1,0 +1,73 @@
+[nn]
+systems = ["DOPC"]
+n_epochs = 200
+equilibration = 50000
+teacher_forcing = false
+chain = false
+shuffle = true
+batch_size = 1
+clear_xla_cache = 1
+
+[nn.optimizer]
+name = "adabelief"
+learning_rate = 0.0002
+b1 = 0.1
+b2 = 0.4
+
+[nn.loss]
+name = "density_and_apl"
+metric = "mse"
+width_ratio = 0.75
+density_weight = 1
+apl_weight = 100
+boundary = 20
+boundary_S = 2
+
+[nn.system_args.DMPC]
+com_type = "C1"
+n_lipids = 72
+target_apl = 0.633
+target_density = "density_test.xvg"
+
+[nn.system_args.DOPC]
+com_type = "C1"
+n_lipids = 72
+target_apl = 0.674
+target_density = "density_test.xvg"
+
+[nn.system_args.POPE]
+com_type = "C1"
+n_lipids = 72
+target_apl = 0.566
+target_density = "density_test.xvg"
+
+[nn.system_args.DPOG]
+com_type = "C1"
+n_lipids = 72
+target_apl = 0.695
+target_density = "density_test.xvg"
+
+[nn.model]
+LJ_param = [
+    ["Q1", "Q5", 0.47, 4.013382911682129, "on_eps"],
+    ["SN4a", "SN4a", 0.41, 3.788543701171875, "on_eps"],
+    ["C1", "C1", 0.47, 2.8662683963775635, "on_eps"],
+    ["C4h", "C4h", 0.47, 4.315609455108643, "on_eps"],
+    ["W", "W", 0.47, 4.65],
+    ["C1", "C4h", 0.47, 2.3850297927856445, "on_eps"],
+    ["C1", "Q1", 0.485, 2.210747718811035, "on_eps"],
+    ["C1", "Q5", 0.62, 2.1436245441436768, "on_eps"],
+    ["C1", "SN4a", 0.43, 2.253901720046997, "on_eps"],
+    ["C1", "W", 0.47, 1.8214943408966064, "on_eps"],
+    ["C4h", "Q1", 0.47, 4.078540325164795, "on_eps"],
+    ["C4h", "Q5", 0.47, 4.323973655700684, "on_eps"],
+    ["C4h", "SN4a", 0.43, 2.146662712097168, "on_eps"],
+    ["C4h", "W", 0.465, 2.9965319633483887, "on_eps"],
+    ["Q1", "Q1", 0.47, 4.692725658416748, "on_eps"],
+    ["Q1", "SN4a", 0.43, 4.429760932922363, "on_eps"],
+    ["Q1", "W", 0.465, 5.585416316986084, "on_eps"],
+    ["Q5", "Q5", 0.47, 7.158048629760742, "on_eps"],
+    ["Q5", "SN4a", 0.43, 4.853018283843994, "on_eps"],
+    ["Q5", "W", 0.465, 6.470555782318115, "on_eps"],
+    ["SN4a", "W", 0.425, 3.07804536819458, "on_eps"],
+]

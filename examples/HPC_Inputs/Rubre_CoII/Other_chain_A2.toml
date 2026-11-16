@@ -1,0 +1,6 @@
+[Other_chain_A2]
+atomnum = 1
+atoms = [
+    [1, "Co2+_spce", 101, "CO", "CO", 1, 2.0, 58.93],
+]
+

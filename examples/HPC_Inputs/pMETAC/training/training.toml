@@ -1,0 +1,81 @@
+[nn]
+systems = [
+	"pmetac-15_005",
+	]
+
+n_epochs = 150              # Number of training iterations
+equilibration = 400000      # Whether to run N equilibration steps before the differentiable dynamics; 2ns
+grad_method = "reverse"     # implemented even other 2 methods, jvp nad finite diff. but for CG reverse is the best
+teacher_forcing = true      # Whether to use the last positions and velocities as starting point for the next epoch
+chain = false               # Whether to chain different optimizers, see example below
+shuffle = true              # Whether to shuffle the indices of dataset at the start of each epoch. 
+batch_size = 1
+clear_xla_cache = 1
+
+[nn.optimizer]
+name ='adabelief' 
+#name ='adam'              #'adabelief'
+learning_rate = 0.0002
+b1 = 0.1
+b2 = 0.4
+
+# This section specifies the loss function and its parameters
+[nn.loss]
+name = 'radius_of_gyration_dist' 
+metric = "wasserstein_1d"
+constraint = "harmonic"     # Individual chi pairs constraints, see below
+k_constraint = 1.0      # Strength of the constraint
+boundary = 20
+boundary_S = 2
+
+# System sepcific loss arguments (can be mixed-matched with the ones above for better control)
+[nn.system_args.pmetac-15_005]
+target_dist = 'target_pdf.npy'
+resname = "PCP"
+n_chains = 1
+width_ratio = 1.0               #around 1-5
+
+#[nn.system_args.pmetac-30_005]
+#target_rg = 1.37
+#resname = "PCP"
+#n_chains = 1
+
+#[nn.system_args.pmetac-15_05]
+#target_rg = 1.13
+#resname = "PCP"
+#n_chains = 1
+
+#[nn.system_args.pmetac-30_05]
+#target_rg = 1.59
+#resname = "PCP"
+#n_chains = 1
+
+[nn.model]
+LJ_param = [
+[   "SCM",   "SCM", 4.210000e-01, 1.250000e+00, "on_sigma", "on_epsilon"],
+[   "N4M",   "N4M", 4.850000e-01, 2.240000e+00, "on_sigma", "on_epsilon"],
+[   "SQ2",   "SQ2", 4.100000e-01, 3.100000e+00, "on_sigma", "on_epsilon"],
+[     "W",     "W", 4.700000e-01, 4.650000e+00],
+[    "NA",    "NA", 3.540000e-01, 1.180000e+00],
+[    "CL",    "CL", 3.540000e-01, 1.180000e+00],
+[ "SN5ah", "SN5ah", 4.100000e-01, 2.840000e+00, "on_sigma", "on_epsilon"],
+[    "NA",    "CL", 3.540000e-01, 1.180000e+00],
+[   "SCM",    "NA", 5.880000e-01, 1.233000e+00, "on_sigma", "on_epsilon"],
+[   "N4M",    "NA", 3.950000e-01, 8.815000e+00, "on_sigma", "on_epsilon"],
+[     "W",    "NA", 3.850000e-01, 1.146000e+01],
+[ "SN5ah",    "NA", 3.650000e-01, 7.619000e+00, "on_sigma", "on_epsilon"],
+[    "NA",   "SQ2", 3.765000e-01, 1.500000e+00, "on_sigma", "on_epsilon"],
+[   "SCM",    "CL", 5.880000e-01, 1.233000e+00, "on_sigma", "on_epsilon"],
+[   "N4M",    "CL", 3.950000e-01, 8.815000e+00, "on_sigma", "on_epsilon"],
+[     "W",    "CL", 3.850000e-01, 1.146000e+01],
+[ "SN5ah",    "CL", 3.650000e-01, 7.619000e+00, "on_sigma", "on_epsilon"],
+[    "CL",   "SQ2", 3.765000e-01, 1.500000e+00, "on_sigma", "on_epsilon"],
+[     "W",   "SQ2", 4.250000e-01, 7.090000e+00, "on_sigma", "on_epsilon"],
+[     "W",   "SCM", 4.370000e-01, 1.420000e+00, "on_sigma", "on_epsilon"],
+[     "W",   "N4M", 4.650000e-01, 3.500000e+00, "on_sigma", "on_epsilon"],
+[   "N4M",   "SCM", 4.300000e-01, 2.160000e+00, "on_sigma", "on_epsilon"],
+[   "SCM",   "SQ2", 4.530000e-01, 2.089000e+00, "on_sigma", "on_epsilon"],
+[   "N4M",   "SQ2", 4.300000e-01, 6.148000e+00, "on_sigma", "on_epsilon"],
+]
+
+

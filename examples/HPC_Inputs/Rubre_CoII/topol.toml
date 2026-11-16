@@ -1,0 +1,13 @@
+[system]
+molecules = [
+    ["Protein_chain_A", 1],
+    ["Other_chain_A2", 1],
+    ["SOL", 3384],
+    ["NA", 10],
+]
+include = [
+    "./Protein_chain_A.toml",
+    "./Other_chain_A2.toml",
+    "./SOL.toml",
+    "./NA.toml",
+]

@@ -1,0 +1,67 @@
+[simulation]
+ensemble = "NPT"                  # Required by new code (old code inferred from pressure=true), NVT and NVE
+n_steps = 140
+n_print = 5                       # Number of steps after which the positions are saved
+n_flush = 1                       # Number of prints after which the output file is saved
+time_step = 0.02                  # Inner loop timestep (for the fast forces)
+respa_inner =  1                  # Number of inner loop steps. Therefore the timestep for the outer loop is given by (time_step * respa_inner)
+cancel_com_momentum = 25          # Whether to remove the center of mass momentum
+
+# temperature
+start_temperature = false
+target_temperature = 300
+tau = 1.0                         # Thermostat coupling constant
+thermostat_coupling_groups = [
+    ['SCM', 'N4M', 'SQ2'],
+    ['W', 'NA', 'CL'],
+]
+
+# pressure
+pressure = true                   # Whether pressure coupling is on
+barostat = 'scr'                  # Barostat name
+barostat_type = 'semiisotropic'   # Barostat type ("isotropic", "semiisotropic")
+tau_p = 4.0                       # Barostat coupling constant
+target_pressure = [1.0, 1.0]      # Barostat target pressure
+beta = 3.5e-5
+
+coulombtype = "reaction-field"    # "pme"
+elec_conversion = 138.935458
+dielectric_const = 15             # Relative dielectric constant
+epsilon_rf = 80                   # Relative dielectric constant for reaction-field, if 0 - epsilonrf = infinite
+rv = 1.3                          # Cutoff for Verlet list
+rc = 1.1                          # Cutoff for electrostatic interation
+rlj = 1.1                         # Cutoff for Lennard-Jones interaction
+ns_nlist = 10                     # Number of steps to Verlet list update, between 20-40 is fine, 10 is very conservative
+nrexcl = 1                        # Number of excluded bonded neighbors
+lj_force_shift = true             #To ensure E conservation, Elj is shifted so even the lj Forces should be
+#nlist_method = "jaxmd"            #Optional, ca be removed and triggers mine hand written version, sometimes is faster, system dependent
+
+[field]
+mesh_size = [20, 20, 20]          # FFT mesh grid. Only use even numbers with Diff-HyMD!
+kappa = 0.05                      # Compressibilty
+sigma = 0.5                       # Particle spread
+rho0 = 8.86                       # Particle 'volume'. Optimized value for NPT
+a = 9.21                          # Free parameter to fit water density. Optimized value for NPT
+LJ_param = [
+[   "SCM",   "SCM", 4.210000e-01, 1.250000e+00],
+[   "N4M",   "N4M", 4.850000e-01, 2.240000e+00],
+[   "SQ2",   "SQ2", 4.100000e-01, 3.100000e+00],
+[     "W",     "W", 4.700000e-01, 4.650000e+00],
+[    "NA",    "NA", 3.540000e-01, 1.180000e+00],
+[    "CL",    "CL", 3.540000e-01, 1.180000e+00],
+[    "NA",    "CL", 3.540000e-01, 1.180000e+00],
+[   "SCM",    "NA", 5.880000e-01, 1.233000e+00],
+[   "N4M",    "NA", 3.950000e-01, 8.815000e+00],
+[     "W",    "NA", 3.850000e-01, 1.146000e+01],
+[    "NA",   "SQ2", 3.765000e-01, 1.500000e+00],
+[   "SCM",    "CL", 5.880000e-01, 1.233000e+00],
+[   "N4M",    "CL", 3.950000e-01, 8.815000e+00],
+[     "W",    "CL", 3.850000e-01, 1.146000e+01],
+[    "CL",   "SQ2", 3.765000e-01, 1.500000e+00],
+[     "W",   "SQ2", 4.250000e-01, 7.090000e+00],
+[     "W",   "SCM", 4.370000e-01, 1.420000e+00],
+[     "W",   "N4M", 4.650000e-01, 3.500000e+00],
+[   "N4M",   "SCM", 4.300000e-01, 2.160000e+00],
+[   "SCM",   "SQ2", 4.530000e-01, 2.089000e+00],
+[   "N4M",   "SQ2", 4.300000e-01, 6.148000e+00],
+]

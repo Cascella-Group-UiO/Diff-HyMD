@@ -1,0 +1,6 @@
+[NA]
+atomnum = 1
+atoms = [
+    [1, "Na+_spce", 1, "NA", "NA", 1, 1.0, 22.99],
+]
+
