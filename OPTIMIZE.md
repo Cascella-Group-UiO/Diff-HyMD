@@ -838,8 +838,7 @@ Other useful schedules:
 
 ### Training TOML Reference (full `[nn]` section)
 
-Below is an annotated example covering all optimizer-related keys
-(from `atomistic_protein/PROVA/dopc_test/training/training.toml`):
+Below is an annotated example covering all optimizer-related keys:
 
 ```toml
 [nn]
@@ -1299,5 +1298,3 @@ whether a trajectory replay is consistent with the saved training artifacts.
   guard against accidental mismatches.
 
 #ATTENTO!!!
-Cambio in SPME
-The main root cause was PME, not the TOML setup: pme_order, mesh, cutoff, and sigma="auto" were already matching the GROMACS-style setup. Diff-MD’s reciprocal filter was using a continuous sinc^(-2p) B-spline deconvolution, while GROMACS/SPME uses the discrete cardinal B-spline modulus. I changed that in nonbonded.py:422-456, so filter_density() now applies the GROMACS-compatible SPME deconvolution
