@@ -1273,28 +1273,3 @@ looked reasonable in the TOML.
 3. Decrease `width_ratio` if narrow physical peaks are being over-smoothed.
 4. Use `wasserstein_1d` when the replayed and target PDFs start far apart; it remains informative even with weak overlap.
 
-### Diagnostic Tool
-
-Use [tools/compare_rg_distributions.py](tools/compare_rg_distributions.py) to compare the target PDF, saved optimization PDFs, and a replayed PDF from any H5 trajectory:
-
-```bash
-python tools/compare_rg_distributions.py \
-   --trajectory roba/polimero/distrib/simulation_pt2.h5 \
-   --target roba/polimero/distrib/target_pdf.npy \
-   --step0 roba/polimero/distrib/dist_saga/dist_saga/distr_test_4_adam/step_0/pmetac-15_005_Rg.npy \
-   --step0v2 roba/polimero/distrib/dist_saga/dist_saga/distr_test_4_adam/step_0/pmetac-15_005_Rg_step0v2.npy \
-   --resname PCP --n-chains 1 --width-ratio 3 \
-   --destdir roba/polimero/distrib/rg_compare_out --legacy-adaptive
-```
-
-The tool writes `comparison.png` and `comparison.json` so it is easy to check
-whether a trajectory replay is consistent with the saved training artifacts.
-
-  Sharp edge (documented, not fixed): the optional constraint(model.LJ_param, k, param_constraints) regularizer at losses.py:592 operates on the full flat LJ_param
-  symmetrically on all ranks; after allreduce(SUM) it multiplies private-row constraint gradients by world_size. v1 workaround: user adjusts k_constraint. Follow-up:
-  gate the constraint to "rows used by this rank" before backward.
-
-  To run replicas-of-same-system: add replica_of = "name" to two or more [nn.system_args.<dir>] entries; the topology equality check will
-  guard against accidental mismatches.
-
-#ATTENTO!!!
