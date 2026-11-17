@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -A IscrC_POLARIS-
+#SBATCH -p boost_usr_prod
+#SBATCH --job-name diff_MD
+#SBATCH --threads-per-core=1
+#SBATCH --cpus-per-task=8
+#SBATCH --ntasks-per-node=4 # 4 tasks out of 32
+#SBATCH --time=10:50:00
+#SBATCH --gpus-per-node=4
+#SBATCH --gpus=4
+#SBATCH --nodes=1
+#SBATCH --qos=normal
+#SBATCH --mem=123000
+
+module purge
+module load gcc/11.3.0
+module load openmpi/4.1.4--gcc--11.3.0-cuda-11.8
+module load python/3.11.6--gcc--8.5.0
+source /leonardo/home/userexternal/morland1/scr/diff_MD/diff_md_GPU/bin/activate
+
+export OMP_NUM_THREADS=8
+export OMP_PLACES=threads
+
+
+srun -n 32 --gpus-per-task=1  diff_md optimize -m training/training.toml -c options.toml -p topol.toml -f finish.h5 -d test_2nodes_3 #-v --restart  test_2nodes_3/step_52/cpt --restart-state exact
+
+

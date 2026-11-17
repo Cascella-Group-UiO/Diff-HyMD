@@ -1,3 +1,10 @@
+#INPUT FILES USED in the PAPER:
+in DIR: examples/HPC_Inputs/ you will find the inputs and referece distributions used in ∂-HyMD Paper:
+1: /examples/HPC_Inputs/DOPC_Membrane = contains *.toml config. files, *.h5 starting coordinate and run.slr script used to submit the training + density_test.xvg (ref. Atomistic Density Profiles)
+2: /examples/HPC_Inputs/pMETAC = contains *.toml config. files, *.h5 starting coordinate and run.slr script used to submit the training + target_pdf.npy (ref. Atomsitic Rg)
+3: /examples/HPC_Inputs/Rubre_CoIIi = contains *.toml config. files, *.h5 starting coordinate and run.slr script used to submit the training + traj_comp_coord_dist.xvg (ref. QMMM)
+
+
 # Diff-HyMD
 <div align="center">
   <img src="https://github.com/user-attachments/assets/d095f255-1150-4f1f-8bfa-27ccfd163d2d" alt="Project Logo" width="600" />
@@ -7,6 +14,7 @@
 ∂-HyMD (read diff-HyMD) is built on top of [∂-HyMD_hHPF](https://github.com/Cascella-Group-UiO/).
 The main goal is to automatically learn force field parameters while running differentiable molecular dynamics simulations.
 Instead of using the hybrid particle-field Hamiltonian, this version uses regular force field functions.
+
 
 #To read more about ∂-HyMD check the paper [here](https://pubs.acs.org/doi/10.1021/acs.jcim.4c00564).
 
@@ -55,17 +63,6 @@ pip install .
 > export PATH="/PATHTO/diff_amd_gpu/bin:$PATH"
 > ```
 
-
-## Example usage of the code
-To run a simple MD simulation you can use
-> ```terminal
-> cd examples
-> diff_md mdrun -f dppc/input.h5 -p dppc/topol.toml -c dppc/options.toml -o dppc/simulation -v
-> ```
-To continue (append to) an existing trajectory:
-> ```terminal
-> diff_md mdrun -f dppc/simulation.h5 -p dppc/topol.toml -c dppc/options.toml -o dppc/simulation --append -v
-> ```
 
 ## Copyright & Licensing
 The source code in this repository is licensed under the LGPL-3.0 license. However, the project logo and associated branding are the exclusive copyright of [Ottica Radioradar SRL], © 2026. All rights reserved. The logo may not be downloaded, copied, or used for any purpose without explicit written permission.
